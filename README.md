@@ -1,4 +1,4 @@
-# agendav-docker
+# AgenDAV Docker
 
 Docker image for [AgenDAV - CalDAV web client](https://github.com/agendav/agendav). AgenDAV requires a CalDAV server running alongside (Baïkal, DAViCal, etc.). The address of CalDAV server must be specified in `AGENDAV_CALDAV_SERVER` env, e.g. `AGENDAV_CALDAV_SERVER=https://baikal.server.com/cal.php` or `AGENDAV_CALDAV_SERVER=https://radicale.server.svc.com:5232/%u`
 
