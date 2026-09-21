@@ -42,6 +42,7 @@ COPY --chown=www-data:www-data settings.php /var/www/agendav/config/settings.php
 COPY run.sh /usr/local/bin/run.sh
 
 RUN chown -R www-data:www-data /var/www/agendav && \
+    install -d -o www-data -g www-data -m 0775 /var/www/agendav/var/cache/twig /var/www/agendav/var/log && \
     chown -R www-data:www-data /var/run/apache2 && \
     chmod 755 ${APACHE_LOG_DIR} && \
     chown -R www-data:www-data ${APACHE_LOG_DIR} && \

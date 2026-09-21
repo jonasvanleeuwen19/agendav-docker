@@ -13,6 +13,7 @@ AGENDAV_LOG_DIR="${AGENDAV_LOG_DIR:-/var/log/agendav}"
 AGENDAV_WEEKSTART="${AGENDAV_WEEKSTART:-1}"
 AGENDAV_CALDAV_PUBLIC_URL="${AGENDAV_CALDAV_PUBLIC_URL:-${AGENDAV_CALDAV_SERVER:-}}"
 AGENDAV_CSRF_SECRET="${AGENDAV_CSRF_SECRET:-$(openssl rand -hex 32)}"
+AGENDAV_SESSION_ENCRYPTION_KEY="${AGENDAV_SESSION_ENCRYPTION_KEY:-$(openssl rand -hex 32)}"
 
 if [ -z "${AGENDAV_CALDAV_SERVER:-}" ]; then
   echo "AGENDAV_CALDAV_SERVER is required"
@@ -21,6 +22,11 @@ fi
 
 if [ "${AGENDAV_WEEKSTART}" != "0" ] && [ "${AGENDAV_WEEKSTART}" != "1" ]; then
   echo "AGENDAV_WEEKSTART must be 0 or 1"
+  exit 1
+fi
+
+if ! [[ "${AGENDAV_SESSION_ENCRYPTION_KEY}" =~ ^[0-9A-Fa-f]{64}$ ]]; then
+  echo "AGENDAV_SESSION_ENCRYPTION_KEY must be 64 hexadecimal characters"
   exit 1
 fi
 
@@ -36,6 +42,7 @@ sed -i \
   -e "s/__AGENDAV_TITLE__/$(escape_sed "${AGENDAV_TITLE}")/g" \
   -e "s/__AGENDAV_FOOTER__/$(escape_sed "${AGENDAV_FOOTER}")/g" \
   -e "s/__AGENDAV_CSRF_SECRET__/$(escape_sed "${AGENDAV_CSRF_SECRET}")/g" \
+  -e "s/__AGENDAV_SESSION_ENCRYPTION_KEY__/$(escape_sed "${AGENDAV_SESSION_ENCRYPTION_KEY}")/g" \
   -e "s#__AGENDAV_LOG_DIR__#$(escape_sed "${AGENDAV_LOG_DIR}")#g" \
   -e "s#__AGENDAV_CALDAV_SERVER__#$(escape_sed "${AGENDAV_CALDAV_SERVER}")#g" \
   -e "s#__AGENDAV_CALDAV_PUBLIC_URL__#$(escape_sed "${AGENDAV_CALDAV_PUBLIC_URL}")#g" \

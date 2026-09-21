@@ -22,6 +22,7 @@ Only `AGENDAV_CALDAV_SERVER` is required. Other variables have defaults.
 | `AGENDAV_TITLE`             | `"Welcome to Example Agendav Server"` |
 | `AGENDAV_FOOTER`            | `"Hosted by Example Company"`         |
 | `AGENDAV_CSRF_SECRET`       | `64 hex chars` (auto-generated if omitted) |
+| `AGENDAV_SESSION_ENCRYPTION_KEY` | `64 hex chars` (auto-generated if omitted; set a stable value when preserving sessions) |
 | `AGENDAV_CALDAV_SERVER`     | `https://baikal.example.com/cal.php`  |
 | `AGENDAV_CALDAV_PUBLIC_URL` | `https://baikal.example.com`          |
 | [`AGENDAV_TIMEZONE`][phptz] | `America/Denver`, `Europe/Berlin`     |
@@ -41,6 +42,7 @@ docker run -d --name=agendav \
     -e AGENDAV_TITLE="Welcome to Example Agendav Server" \
     -e AGENDAV_FOOTER="Hosted by Example Company" \
     -e AGENDAV_CSRF_SECRET="$(openssl rand -hex 32)" \
+    -e AGENDAV_SESSION_ENCRYPTION_KEY="$(openssl rand -hex 32)" \
     -e AGENDAV_CALDAV_SERVER=https://baikal.example.com/cal.php \
     -e AGENDAV_CALDAV_PUBLIC_URL=https://baikal.example.com \
     -e AGENDAV_TIMEZONE=UTC \
