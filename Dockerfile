@@ -41,17 +41,12 @@ COPY agendav.conf /etc/apache2/sites-available/agendav.conf
 COPY --chown=www-data:www-data settings.php /var/www/agendav/config/settings.php.template
 COPY run.sh /usr/local/bin/run.sh
 
-ADD https://curl.se/ca/cacert.pem /etc/ssl/certs/cacert.pem
-
-RUN chmod 644 /etc/ssl/certs/cacert.pem && \
-    chown -R www-data:www-data /var/www/agendav && \
+RUN chown -R www-data:www-data /var/www/agendav && \
     chown -R www-data:www-data /var/run/apache2 && \
     chmod 755 ${APACHE_LOG_DIR} && \
     chown -R www-data:www-data ${APACHE_LOG_DIR} && \
     cp ${PHP_INI_DIR}/php.ini-production ${PHP_INI_DIR}/php.ini && \
     echo 'date.timezone = "AGENDAV_TIMEZONE"' > ${PHP_INI_DIR}/conf.d/zz-agendav.ini && \
-    echo 'openssl.cafile = "/etc/ssl/certs/cacert.pem"' >> ${PHP_INI_DIR}/php.ini && \
-    echo 'curl.cainfo = "/etc/ssl/certs/cacert.pem"' >> ${PHP_INI_DIR}/php.ini && \
     chown www-data:www-data ${PHP_INI_DIR}/conf.d/zz-agendav.ini && \
     mkdir -p /var/agendav && \
     mkdir -p /var/log/agendav && \
@@ -70,8 +65,6 @@ RUN ln -sf /dev/stdout ${APACHE_LOG_DIR}/access.log \
     && ln -sf /dev/stderr ${APACHE_LOG_DIR}/davi-error.log
 
 EXPOSE 8080
-
-USER www-data
 
 ENTRYPOINT ["/usr/local/bin/run.sh"]
 

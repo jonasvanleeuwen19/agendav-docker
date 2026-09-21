@@ -12,7 +12,7 @@ AGENDAV_LANG="${AGENDAV_LANG:-en}"
 AGENDAV_LOG_DIR="${AGENDAV_LOG_DIR:-/var/log/agendav}"
 AGENDAV_WEEKSTART="${AGENDAV_WEEKSTART:-1}"
 AGENDAV_CALDAV_PUBLIC_URL="${AGENDAV_CALDAV_PUBLIC_URL:-${AGENDAV_CALDAV_SERVER:-}}"
-AGENDAV_CSRF_SECRET="${AGENDAV_CSRF_SECRET:-$(php -r 'echo bin2hex(random_bytes(32));')}"
+AGENDAV_CSRF_SECRET="${AGENDAV_CSRF_SECRET:-$(openssl rand -hex 32)}"
 
 if [ -z "${AGENDAV_CALDAV_SERVER:-}" ]; then
   echo "AGENDAV_CALDAV_SERVER is required"
@@ -29,6 +29,7 @@ escape_sed() {
 }
 
 mkdir -p "${AGENDAV_LOG_DIR}"
+chown -R www-data:www-data "${AGENDAV_LOG_DIR}"
 cp "${CONFIG_TEMPLATE}" "${CONFIG_FILE}"
 
 sed -i \

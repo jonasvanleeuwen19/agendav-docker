@@ -8,6 +8,7 @@ return [
         'path' => '/var/agendav/db.sqlite',
         'driver' => 'pdo_sqlite',
     ],
+    'session.handler' => 'native',
 
     'csrf.secret' => '__AGENDAV_CSRF_SECRET__',
 
