@@ -6,7 +6,7 @@ Docker image for [AgenDAV - CalDAV web client](https://github.com/agendav/agenda
 
 Since this image only carries a front-end for CalDAV, there's no provision for persistency. Running agendav statelessly has no drawbacks since agendav itself is not customizable.
 
-Standard `php:apache` base image is used. The build is not optimized for size or compilation time.
+This image tracks AgenDAV `3.3.1` and runs on PHP `8.5`, matching upstream minimum requirements.
 
 ## Supported tags
 
@@ -14,19 +14,20 @@ See [packages](https://ghcr.io/nagimov/agendav-docker)
 
 ## Environment Variables
 
-Note: **all environment variables are mandatory** and must be set via [`docker-compose.yml`](https://github.com/nagimov/agendav-docker/blob/master/docker-compose.yml) or via `-e` option of `docker run ...`
+Only `AGENDAV_CALDAV_SERVER` is required. Other variables have defaults.
 
 | Environment Variable        | Example                               |
 | --------------------------- | ------------------------------------- |
 | `AGENDAV_SERVER_NAME`       | `127.0.0.1`                           |
 | `AGENDAV_TITLE`             | `"Welcome to Example Agendav Server"` |
 | `AGENDAV_FOOTER`            | `"Hosted by Example Company"`         |
+| `AGENDAV_CSRF_SECRET`       | `64 hex chars` (auto-generated if omitted) |
 | `AGENDAV_CALDAV_SERVER`     | `https://baikal.example.com/cal.php`  |
 | `AGENDAV_CALDAV_PUBLIC_URL` | `https://baikal.example.com`          |
 | [`AGENDAV_TIMEZONE`][phptz] | `America/Denver`, `Europe/Berlin`     |
 | `AGENDAV_WEEKSTART`         | `0` (Sunday) or `1` (Monday)          |
 | `AGENDAV_LANG`              | `en`                                  |
-| `AGENDAV_LOG_DIR`           | `/tmp/`                               |
+| `AGENDAV_LOG_DIR`           | `/var/log/agendav`                    |
 
 ## Deployment
 
@@ -39,11 +40,12 @@ docker run -d --name=agendav \
     -e AGENDAV_SERVER_NAME=127.0.0.1 \
     -e AGENDAV_TITLE="Welcome to Example Agendav Server" \
     -e AGENDAV_FOOTER="Hosted by Example Company" \
+    -e AGENDAV_CSRF_SECRET="$(openssl rand -hex 32)" \
     -e AGENDAV_CALDAV_SERVER=https://baikal.example.com/cal.php \
     -e AGENDAV_CALDAV_PUBLIC_URL=https://baikal.example.com \
     -e AGENDAV_TIMEZONE=UTC \
     -e AGENDAV_LANG=en \
-    -e AGENDAV_LOG_DIR=/tmp/ \
+    -e AGENDAV_LOG_DIR=/var/log/agendav \
     ghcr.io/nagimov/agendav-docker:latest
 ```
 
