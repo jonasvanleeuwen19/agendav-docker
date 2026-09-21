@@ -2,18 +2,19 @@ version: "2"
 
 services:
   agendav:
-    image: ghcr.io/nagimov/agendav-docker:latest
+    image: ghcr.io/jonasvanleeuwen19/agendav-docker:latest
     container_name: agendav
+    restart: unless-stopped
     environment:
       - AGENDAV_SERVER_NAME=127.0.0.1
       - AGENDAV_TITLE=Welcome to Example Agendav Server
       - AGENDAV_FOOTER=Hosted by Example Company
-      - AGENDAV_CSRF_SECRET=change-this-to-a-random-64-hex-string
+      - AGENDAV_CSRF_SECRET=${AGENDAV_CSRF_SECRET}
+      - AGENDAV_SESSION_ENCRYPTION_KEY=${AGENDAV_SESSION_ENCRYPTION_KEY}
       - AGENDAV_CALDAV_SERVER=https://baikal.example.com/cal.php
       - AGENDAV_CALDAV_PUBLIC_URL=https://baikal.example.com
       - AGENDAV_TIMEZONE=UTC
       - AGENDAV_LANG=en
       - AGENDAV_LOG_DIR=/var/log/agendav
-      - AGENDAV_WEEKSTART=1
     ports:
       - "80:8080"
