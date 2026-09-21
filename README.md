@@ -10,7 +10,7 @@ This image tracks AgenDAV `3.3.1` and runs on PHP `8.5`, matching upstream minim
 
 ## Supported tags
 
-See [packages](https://ghcr.io/nagimov/agendav-docker)
+See [packages](https://ghcr.io/jonasvanleeuwen19/agendav-docker)
 
 ## Environment Variables
 
@@ -31,10 +31,10 @@ Only `AGENDAV_CALDAV_SERVER` is required. Other variables have defaults.
 
 ## Deployment
 
-- use provided [`docker-compose.yml`](https://github.com/nagimov/agendav-docker/blob/master/docker-compose.yml) and deploy via `docker-compose up`
+- use provided [`docker-compose.yml`](https://github.com/jonasvanleeuwen19/agendav-docker/blob/main/docker-compose.yml) and deploy via `docker-compose up`
 - or deploy via `docker run`:
 ```
-docker pull ghcr.io/nagimov/agendav-docker:latest
+docker pull ghcr.io/jonasvanleeuwen19/agendav-docker:latest
 docker run -d --name=agendav \
     -p 80:8080 \
     -e AGENDAV_SERVER_NAME=127.0.0.1 \
@@ -46,7 +46,7 @@ docker run -d --name=agendav \
     -e AGENDAV_TIMEZONE=UTC \
     -e AGENDAV_LANG=en \
     -e AGENDAV_LOG_DIR=/var/log/agendav \
-    ghcr.io/nagimov/agendav-docker:latest
+    ghcr.io/jonasvanleeuwen19/agendav-docker:latest
 ```
 
 [phptz]: https://www.php.net/manual/en/timezones.php
