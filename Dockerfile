@@ -1,8 +1,8 @@
 ARG PHP_VERSION=8.5
 
-FROM debian:bookworm-slim as downloader
+FROM debian:bookworm-slim AS downloader
 
-ENV AGENDAV_VERSION 3.3.1
+ENV AGENDAV_VERSION=3.3.1
 
 ADD https://github.com/agendav/agendav/releases/download/$AGENDAV_VERSION/agendav-$AGENDAV_VERSION.tar.gz /tmp/
 
@@ -13,7 +13,7 @@ RUN cd /tmp && \
 
 FROM php:${PHP_VERSION}-apache-bookworm
 
-MAINTAINER Ruslan Nagimov <nagimov@outlook.com>
+LABEL maintainer="Ruslan Nagimov <nagimov@outlook.com>"
 
 ENV APACHE_RUN_USER=www-data
 ENV APACHE_RUN_GROUP=www-data
@@ -22,7 +22,7 @@ ENV APACHE_LOCK_DIR=/var/lock/apache2
 ENV APACHE_PID_FILE=/var/run/apache2/apache2.pid
 ENV TERM=xterm
 ENV AGENDAV_TIMEZONE=UTC
-ENV PHP_INI_DIR /usr/local/etc/php
+ENV PHP_INI_DIR=/usr/local/etc/php
 
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
 
@@ -41,7 +41,7 @@ COPY agendav.conf /etc/apache2/sites-available/agendav.conf
 COPY --chown=www-data:www-data settings.php /var/www/agendav/config/settings.php.template
 COPY run.sh /usr/local/bin/run.sh
 
-ADD https://curl.se/ca/cacert.pem /etc/ssl/certs/
+ADD https://curl.se/ca/cacert.pem /etc/ssl/certs/cacert.pem
 
 RUN chmod 644 /etc/ssl/certs/cacert.pem && \
     chown -R www-data:www-data /var/www/agendav && \
